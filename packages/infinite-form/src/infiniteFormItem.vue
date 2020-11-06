@@ -45,6 +45,7 @@ export default {
           component.componentOptions.listeners[flag ? vNode.model.event : 'input'] = (val) => {
             formModels[itemData.key] = val
           }
+          console.log(22222, component)
           return component
         })
       case 'input':
@@ -75,8 +76,6 @@ export default {
           </el-date-picker>
         )
 
-      case 'infinite-select-tags':
-        return (<infinite-select-tags v-model={formModels[itemData.key]} options={itemData.options} placeholder={itemData.placeholder} tagsNum={itemData.tagsNum}></infinite-select-tags>)
       default:
         return null
     }

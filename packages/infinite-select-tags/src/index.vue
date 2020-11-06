@@ -2,15 +2,15 @@
   <div class="infinite-select-tags">
     <el-select
       ref="infiniteSekectTags"
-      v-model="showTags"
+      v-model="keys"
       multiple
       popper-class="infinite-select-popover"
       :placeholder="defaultPlaceholder"
       size="large"
     >
       <!-- popper展示核心内容 -->
-      <div class="infinite-select-search">
-          <el-input v-if="filterable"  placeholder="请输入字段名称" prefix-icon="el-icon-search" @input="keyWordChange" />
+      <div class="infinite-select-search" v-if="filterable">
+          <el-input placeholder="请输入字段名称" prefix-icon="el-icon-search" @input="keyWordChange" />
       </div>
       <div class="infinite-select-group">
         <div
@@ -41,15 +41,15 @@
       </div>
       <template slot="prefix">
         <div slot="reference" class="infinite-selected">
-          <div v-if="showTags.length > 0" class="infinite-selected-tag">
+          <div v-if="keys.length > 0" class="infinite-selected-tag">
             <el-tag
-              v-for="(item, i) in showTags"
+              v-for="(item, i) in keys"
               v-show="i < tagsNum"
               :key="item"
               >{{ item }}</el-tag
             >
-            <el-tag v-if="showTags.length > tagsNum" class="last-tag"
-              >+{{ showTags.length - tagsNum }}</el-tag
+            <el-tag v-if="keys.length > tagsNum" class="last-tag"
+              >+{{ keys.length - tagsNum }}</el-tag
             >
           </div>
         </div>
@@ -69,6 +69,10 @@ import InfiniteButton from '../../infinite-button'
 export default {
   name: 'InfiniteSelectTags',
   components: { ElInput, ElTag, ElSelect, ElOption, ElCheckbox, InfiniteButton },
+  model: {
+    prop: 'vModel',
+    event: 'change'
+  },
   props: {
     options: {
       // checkbox-group遍历的数据
@@ -86,20 +90,24 @@ export default {
     filterable: {
       type: Boolean,
       default: false
+    },
+    vModel: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
     return {
-      defaultSelect: '',
       allHidden: false,
       allChecked: false, // 是否全选
-      showTags: [], // 输入框展示的tag
-      selectedOption: []
+      keys: [], // 输入框展示的tag
+      selectedOption: [],
+      codeArr: []
     }
   },
   computed: {
     defaultPlaceholder () {
-      if (this.showTags.length > 0) {
+      if (this.keys.length > 0) {
         return ''
       } else {
         return this.placeholder
@@ -114,7 +122,7 @@ export default {
           this.options.forEach((el) => {
             if (el.disabled) {
               el.isChecked = true
-              this.showTags.push(el.name)
+              this.keys.push(el.name)
             }
           })
         }
@@ -131,7 +139,7 @@ export default {
     this.options.forEach((el) => {
       if (el.disabled) {
         el.isChecked = true
-        this.showTags.push(el.name)
+        this.keys.push(el.name)
       }
     })
   },
@@ -148,25 +156,15 @@ export default {
     makeSure () {
       // 点击确定按钮
       this.selectedOption = this.options.filter((el) => el.isChecked === true)
-      this.showTags = Array.from(this.selectedOption, ({ name }) => name) // 展示前五个+...
-      this.defaultSelect =
-        this.showTags.length > 5
-          ? this.showTags.slice(0, 5).join(',') + '...'
-          : this.showTags.join(',')
+      this.keys = Array.from(this.selectedOption, ({ name }) => name) // 展示前五个+...
       this.$refs.infiniteSekectTags.blur()
       this.$emit('selectChange', this.selectedOption)
+      this.$emit('change', this.keys)
     },
     allSelect (val) {
       // 全选按钮的点击事件
       this.options.forEach((el) => {
         (val || (!val && !el.disabled)) && (el.isChecked = val)
-      })
-    },
-    keyWordChange () {
-      this.option.forEach(el => {
-        el.resultData.forEach(item => {
-          this.$set(item, 'hidden', item.name.indexOf(this.searchKeyWord) === -1)
-        })
       })
     }
   }
