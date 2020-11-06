@@ -167,6 +167,12 @@
                   placeholder: "请选择查询信息",
                   tagsNum: 4,
                 },
+                on: {
+                  componentEvent: (val) => {
+                    console.log('--->', val)
+                    this.componentEvent(val);
+                  },
+                },
               });
             },
           },
