@@ -19,10 +19,11 @@ import {
 // import Home from '@/views/home'
 import Layout from '@/views'
 import animateIndex from '@/views/animateIndex'
+import Charts from '@/views/Charts/Index.vue'
 import { getFileList } from './generate'
 
 const generateRouters = getFileList()
-console.log(generateRouters)
+
 const routes = [
   // {
   //   path: '/scrollContainer',
@@ -38,6 +39,11 @@ const routes = [
     path: '/index',
     name: '/homeAnimationIndex',
     component: animateIndex
+  },
+  {
+    path: '/chart',
+    name: '/chart',
+    component: Charts
   },
   {
     path: '/guide',

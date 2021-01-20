@@ -14,6 +14,11 @@ import InfiniteTable from './infinite-table'
 import InfiniteTableColumn from './infinite-table-column'
 import InfiniteThemePicker from './infinite-theme-picker'
 import InfiniteTree from './infinite-tree'
+import InfiniteChart from './infinite-chart'
+import InfiniteChartAxis from './infinite-chart-axis'
+import InfiniteChartLine from './infinite-chart-line'
+import InfiniteChartToolTips from './infinite-chart-tooltips'
+
 const version = '0.0.10'
 const components = [
   InfiniteButton,
@@ -29,13 +34,17 @@ const components = [
   InfiniteTable,
   InfiniteTableColumn,
   InfiniteThemePicker,
-  InfiniteTree
+  InfiniteTree,
+  InfiniteChart,
+  InfiniteChartLine,
+  InfiniteChartAxis,
+  InfiniteChartToolTips,
 ]
 const install = Vue => {
   components.forEach(Component => {
     Vue.use(Component)
   })
-};  
+};
 /* istanbul ignore if */
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
@@ -56,7 +65,11 @@ export {
   InfiniteTable,
   InfiniteTableColumn,
   InfiniteThemePicker,
-  InfiniteTree
+  InfiniteTree,
+  InfiniteChart,
+  InfiniteChartLine,
+  InfiniteChartAxis,
+  InfiniteChartToolTips,
 }
 export default {
   install,
@@ -74,6 +87,9 @@ export default {
   InfiniteTable,
   InfiniteTableColumn,
   InfiniteThemePicker,
-  InfiniteTree
+  InfiniteTree,
+  InfiniteChart,
+  InfiniteChartLine,
+  InfiniteChartAxis,
+  InfiniteChartToolTips,
 }
-  
